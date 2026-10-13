@@ -3,7 +3,7 @@
 > **Instituto Federal de Pernambuco (IFPE) - Campus Garanhuns**  
 > **Disciplina:** Sistemas Embarcados / Automação e Conectividade  
 > **Professor:** Lauro Alves  
-> **Etapa:** Entrega R5 – Programação e Leitura dos Sensores  
+> **Etapa:** Entrega R6 – Integração de Sensores e Atuadores  
 > **Equipe:** Gustavo de Lima Souza, Raul Lopes e Jefferson Tenório  
 
 [![Simulação no Wokwi](https://img.shields.io/badge/Wokwi-Simulação%20Online-blue?logo=espressif)](https://wokwi.com/projects/476813449559690241)
@@ -30,10 +30,13 @@ Este projeto tem como objetivo automatizar e modernizar o controle de aparelhos 
 | **Receptor IR (TSOP38238)** | DAT / Out | **GPIO 14** | Captura e decodificação de comandos IR |
 | **Receptor IR (TSOP38238)** | VCC | **3V3** | Alimentação positiva |
 | **Receptor IR (TSOP38238)** | GND | **GND** | Aterramento comum |
+| **LED indicador (azul)** | Anodo (via Resistor 220Ω) | **GPIO 2** | Acompanha o estado do ar (visível para o vídeo) |
+| **LED indicador (azul)** | Catodo | **GND** | Aterramento comum |
+| **Relé (módulo)** | IN / VCC / GND | **GPIO 5** / **3V3** / **GND** | Simula o compressor do ar-condicionado |
 
 ---
 
-## 3. Requisitos Obrigatórios da Etapa R5 (Mapeamento A a F)
+## 3. Requisitos Obrigatórios da Etapa R6 (Mapeamento A a F)
 
 O código principal (`sketch.ino`) foi estruturado e comentado para atender explicitamente a todos os tópicos de avaliação exigidos pela disciplina:
 
@@ -43,6 +46,8 @@ Os pinos de I/O do ESP32 são definidos como constantes em tempo de compilação
 constexpr uint8_t DHT_PIN    = 4;   // GPIO4  -> Pino de dados (SDA) do sensor DHT22
 constexpr uint8_t IR_TX_PIN  = 15;  // GPIO15 -> Sinal PWM de transmissão para o LED IR
 constexpr uint8_t IR_RX_PIN  = 14;  // GPIO14 -> Entrada de dados do receptor TSOP38238
+constexpr uint8_t STATUS_LED_PIN = 2; // GPIO2 -> LED que acompanha o estado do ar
+constexpr uint8_t RELAY_PIN  = 5;   // GPIO5  -> Relé que simula o compressor
 ```
 
 ### B. Inicialização dos Sensores
@@ -50,6 +55,8 @@ Executada dentro da rotina `setup()`, preparando os barramentos de comunicação
 ```cpp
 void setup() {
   Serial.begin(115200);
+  pinMode(STATUS_LED_PIN, OUTPUT); // LED que acompanha o estado do ar
+  pinMode(RELAY_PIN, OUTPUT);      // Relé que simula o compressor
   dht.begin();                // Inicializa o barramento do sensor DHT22
   irReceiver.enableIRIn();    // Inicializa a recepção do sinal infravermelho
 }
@@ -86,7 +93,7 @@ O firmware implementa diversas condições essenciais para a segurança e contro
 3. **Controle Termostático com Histerese:**
    - Liga o resfriamento se: `temperature > (state.setpoint + HYSTERESIS)`.
    - Desliga o resfriamento se: `temperature < (state.setpoint - HYSTERESIS)`.
-   - Inclui proteção contra chaveamento rápido do compressor (`AUTO_INTERVAL = 30000 ms`).
+   - Inclui proteção contra chaveamento rápido do compressor (`AUTO_INTERVAL = 30000 ms`, reduzido para 8 s no vídeo com `DEMO_MODE = true`).
 4. **Parser Serial:** Avalia comandos de controle recebidos pelo terminal (`on`, `off`, `t <temp>`, `auto`, `status`).
 
 ### F. Acionamento de Atuadores
