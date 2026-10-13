@@ -8,12 +8,12 @@
  * ==============================================================================
  *
  * ÍNDICE DOS REQUISITOS OBRIGATÓRIOS AVALIADOS PELO PROFESSOR:
- * [ITEM A] Configuração dos pinos                -> Linhas 27 a 33
- * [ITEM B] Inicialização dos sensores            -> Linhas 202 a 218 (setup)
- * [ITEM C] Variáveis utilizadas                  -> Linhas 34 a 65
- * [ITEM D] Comandos responsáveis pela leitura    -> Linhas 108 a 139
- * [ITEM E] Estruturas condicionais utilizadas    -> Linhas 141 a 188
- * [ITEM F] Acionamento de atuadores              -> Linhas 67 a 106
+ * [ITEM A] Configuração dos pinos                -> Linhas 27 a 32
+ * [ITEM B] Inicialização dos sensores            -> Linhas 206 a 222 (setup)
+ * [ITEM C] Variáveis utilizadas                  -> Linhas 34 a 71
+ * [ITEM D] Comandos responsáveis pela leitura    -> Linhas 114 a 145
+ * [ITEM E] Estruturas condicionais utilizadas    -> Linhas 147 a 196
+ * [ITEM F] Acionamento de atuadores              -> Linhas 73 a 112
  * ==============================================================================
  */
 
