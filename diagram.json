@@ -27,7 +27,29 @@
       "attrs": { "color": "red", "label": "IR" }
     },
     { "type": "wokwi-ir-receiver", "id": "ir1", "top": 113.85, "left": -136.18, "attrs": {} },
-    { "type": "wokwi-ir-remote", "id": "remote1", "top": 124.8, "left": -412.8, "attrs": {} }
+    { "type": "wokwi-ir-remote", "id": "remote1", "top": 124.8, "left": -412.8, "attrs": {} },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 240,
+      "left": 110,
+      "rotate": 180,
+      "attrs": { "value": "220" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "led2",
+      "top": 250,
+      "left": 200,
+      "attrs": { "color": "blue", "label": "AC ON" }
+    },
+    {
+      "type": "wokwi-relay-module",
+      "id": "relay1",
+      "top": 350,
+      "left": 150,
+      "attrs": {}
+    }
   ],
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ],
@@ -40,7 +62,13 @@
     [ "led1:C", "esp:GND.3", "black", [ "v0" ] ],
     [ "ir1:VCC", "esp:3V3", "red", [ "v0" ] ],
     [ "ir1:GND", "esp:GND.1", "black", [ "v0" ] ],
-    [ "ir1:DAT", "esp:14", "blue", [ "v0" ] ]
+    [ "ir1:DAT", "esp:14", "blue", [ "v0" ] ],
+    [ "esp:2", "r2:1", "green", [ "v0" ] ],
+    [ "r2:2", "led2:A", "green", [ "v0" ] ],
+    [ "led2:C", "esp:GND.2", "black", [ "v0" ] ],
+    [ "relay1:VCC", "esp:3V3", "red", [ "v0" ] ],
+    [ "relay1:GND", "esp:GND.2", "black", [ "v0" ] ],
+    [ "relay1:IN", "esp:5", "yellow", [ "v0" ] ]
   ],
   "dependencies": {}
 }
